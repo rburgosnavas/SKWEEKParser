@@ -1,0 +1,21 @@
+package com.rburgos.skweekparser.symbols;
+
+public class Var extends GenericSymbol
+{
+    int value;
+    
+    public Var(String token, int value)
+    {
+        super(token);
+    }
+
+    public int getValue()
+    {
+        return value;
+    }
+
+    public void setValue(int value)
+    {
+        this.value = value;
+    }
+}
