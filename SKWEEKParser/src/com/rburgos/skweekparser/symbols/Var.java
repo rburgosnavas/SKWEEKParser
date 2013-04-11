@@ -7,6 +7,7 @@ public class Var extends GenericSymbol
     public Var(String token, int value)
     {
         super(token);
+        this.value = value;
     }
 
     public int getValue()
