@@ -16,11 +16,11 @@ public class Parser
 			"(\\|{1,2})|(\\&{1,2})|(\\<{1,2})|(\\>{1,2})|(\\^{1})))";
 	
 	private int t, x, y, z;
-	private String exp;
+	private String expression;
 	
 	private Parser(ParserBuilder builder)
 	{
-	    this.exp = builder.exp;
+	    this.expression = builder.expression;
 	    this.t = builder.t;
 	    this.x = builder.x;
 	    this.y = builder.y;
@@ -29,7 +29,7 @@ public class Parser
     
     public List<String> splitToList()
     {
-        return this.splitToList(exp);
+        return this.splitToList(expression);
     }
 	
 	public List<String> splitToList(String expression)
@@ -51,7 +51,7 @@ public class Parser
 		     * remaining substring separately.
 		     */
 		    if (current.length() > 1 && current.charAt(0) == '-' && 
-		            !isNotNumeric(previous) && !previous.equals(""))
+		            !SymbolUtils.isNotNumeric(previous) && !previous.equals(""))
 		    {
 	            symbols.add(current.substring(0, 1));
 	            symbols.add(current.substring(1));
@@ -78,15 +78,15 @@ public class Parser
         Stack<String> operators = new Stack<>();
         for (String symbol : symbols)
         {
-            if (isLowPrecedence(symbol))
+            if (SymbolUtils.isLowPrecedence(symbol))
             {
                 pushLowPrecedence(postfixStack, operators, symbol);
             }
-            else if (isHighPrecedence(symbol))
+            else if (SymbolUtils.isHighPrecedence(symbol))
             {
                 pushHighPrecedence(postfixStack, operators, symbol);
             }
-            else if (isParenthesis(symbol))
+            else if (SymbolUtils.isParenthesis(symbol))
             {
                 pushParenthesis(postfixStack, operators, symbol);
             }
@@ -108,7 +108,7 @@ public class Parser
     private void pushParenthesis(Stack<String> postfixStack, 
             Stack<String> operators, String symbol)
     {
-        if (isLeftParen(symbol))
+        if (SymbolUtils.isLeftParen(symbol))
         {
             operators.push(symbol);
         }
@@ -117,7 +117,7 @@ public class Parser
             while (!operators.isEmpty())
             {
                 String possibleRightParen = operators.pop();
-                if (!isLeftParen(possibleRightParen))
+                if (!SymbolUtils.isLeftParen(possibleRightParen))
                 {
                     postfixStack.push(possibleRightParen);
                 }
@@ -134,7 +134,7 @@ public class Parser
         }
         else
         {
-            if (isHighPrecedence(operators.peek()))
+            if (SymbolUtils.isHighPrecedence(operators.peek()))
             {
                 postfixStack.push(operators.pop());
                 operators.push(symbol);
@@ -155,7 +155,7 @@ public class Parser
         }
         else
         {
-            if (isLeftParen(operators.peek()))
+            if (SymbolUtils.isLeftParen(operators.peek()))
             {
                 operators.push(symbol);
             }
@@ -182,7 +182,7 @@ public class Parser
 		Stack<String>calc = new Stack<>();
 		for (String symbol : postfixList)
 		{		    
-		    if (!isParenthesis(symbol))
+		    if (!SymbolUtils.isParenthesis(symbol))
 		    {
 	            if (Functions.contains(symbol))
 	            {
@@ -217,53 +217,15 @@ public class Parser
 		return result;
 	}
 
-    private static boolean isLowPrecedence(String symbol)
-    {
-        return symbol.equals("+") || symbol.equals("-");
-    }
-    
-    private static boolean isHighPrecedence(String symbol)
-    {
-        return symbol.equals("*") || symbol.equals("/") || 
-               symbol.equals("^") || symbol.equals("<<") || 
-               symbol.equals(">>") || symbol.equals("|") || 
-               symbol.equals("&") || symbol.equals("%");
-    }
-    
-    private static boolean isLeftParen(String symbol)
-    {
-        return symbol.equals("(");
-    }
-    
-    private static boolean isRightParen(String symbol)
-    {
-        return symbol.equals(")");
-    }
-    
-    private static boolean isParenthesis(String symbol)
-    {
-        return isLeftParen(symbol) || isRightParen(symbol);
-    }
-    
-    private static boolean isOperator(String symbol)
-    {
-        return isLowPrecedence(symbol) || isHighPrecedence(symbol);
-    }
-    
-    private static boolean isNotNumeric(String symbol)
-    {
-        return isOperator(symbol) || isParenthesis(symbol);
-    }
-    
     public static class ParserBuilder
     {
-        private String exp;
+        private String expression;
         private int t = 0, x = 0, y = 0, z = 0;
         private static Parser parser = null;
         
         public ParserBuilder(String exp)
         {
-            this.exp = exp;
+            this.expression = exp;
         }
         
         public ParserBuilder setT(int t)
