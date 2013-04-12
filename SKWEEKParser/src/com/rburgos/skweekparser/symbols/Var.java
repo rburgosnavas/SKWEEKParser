@@ -15,6 +15,11 @@ public class Var extends GenericSymbol
         return value;
     }
 
+    public double getDoubleValue()
+    {
+        return (double)value;
+    }
+
     public void setValue(int value)
     {
         this.value = value;

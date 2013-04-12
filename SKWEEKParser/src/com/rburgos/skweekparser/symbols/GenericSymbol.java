@@ -1,6 +1,6 @@
 package com.rburgos.skweekparser.symbols;
 
-public class GenericSymbol implements SymbolInterface
+public class GenericSymbol implements Symbol
 {
     String token;
     

@@ -1,6 +1,6 @@
 package com.rburgos.skweekparser.symbols;
 
-public interface SymbolInterface
+public interface Symbol
 {
     String getSymbol();
     void setSymbol(String token);

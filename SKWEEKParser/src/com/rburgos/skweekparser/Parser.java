@@ -6,6 +6,9 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.rburgos.skweekparser.functions.Functions;
+import com.rburgos.skweekparser.utils.Utils;
+
 
 public class Parser
 {
@@ -51,7 +54,7 @@ public class Parser
 		     * remaining substring separately.
 		     */
 		    if (current.length() > 1 && current.charAt(0) == '-' && 
-		            !SymbolUtils.isNotNumeric(previous) && !previous.equals(""))
+		            !Utils.isNotNumeric(previous) && !previous.equals(""))
 		    {
 	            symbols.add(current.substring(0, 1));
 	            symbols.add(current.substring(1));
@@ -74,67 +77,69 @@ public class Parser
 	
 	public List<String> toPostfix(List<String> symbols)
     {
-        Stack<String> postfixStack = new Stack<>();
+        Stack<String> postfix = new Stack<>();
         Stack<String> operators = new Stack<>();
         for (String symbol : symbols)
         {
-            if (SymbolUtils.isLowPrecedence(symbol))
+            if (Utils.isLowPrecedence(symbol))
             {
-                pushLowPrecedence(postfixStack, operators, symbol);
+                pushLowPrecedence(postfix, operators, symbol);
             }
-            else if (SymbolUtils.isHighPrecedence(symbol))
+            else if (Utils.isHighPrecedence(symbol))
             {
-                pushHighPrecedence(postfixStack, operators, symbol);
+                pushHighPrecedence(postfix, operators, symbol);
             }
-            else if (SymbolUtils.isParenthesis(symbol))
+            else if (Utils.isParenthesis(symbol))
             {
-                pushParenthesis(postfixStack, operators, symbol);
+                pushParenthesis(postfix, operators, symbol);
             }
             else
             {
-                postfixStack.push(symbol);
+                postfix.push(symbol);
             }
         } // end for loop
         
         // push remaining elements from operator stack if it's not empty
         while (!operators.isEmpty()) 
         {
-            postfixStack.push(operators.pop());    
+            postfix.push(operators.pop());    
         }
         
-        return postfixStack;
+        return postfix;
     }
 
-    private void pushParenthesis(Stack<String> postfixStack, 
+    private void pushParenthesis(Stack<String> postfix, 
             Stack<String> operators, String symbol)
     {
-        if (SymbolUtils.isLeftParen(symbol))
+        String popped;
+        if (Utils.isLeftParen(symbol))
         {
             operators.push(symbol);
         }
-        else// if (isRightParen(symbol))
+        else// if (Utils.isRightParen(symbol))
         {
             while (!operators.isEmpty())
             {
-                String possibleRightParen = operators.pop();
-                if (!SymbolUtils.isLeftParen(possibleRightParen))
+                popped = operators.pop();
+                if (!Utils.isLeftParen(popped))
                 {
-                    postfixStack.push(possibleRightParen);
+                    postfix.push(popped);
                 }
             }
         }
     }
 
-    private void pushHighPrecedence(Stack<String> postfixStack,
+    private void pushHighPrecedence(Stack<String> postfix,
             Stack<String> operators, String symbol)
     {
+        /* Original
         if (operators.isEmpty())
         {
             operators.push(symbol);
         }
         else
         {
-            if (SymbolUtils.isHighPrecedence(operators.peek()))
+            if (Utils.isHighPrecedence(operators.peek()))
             {
                 postfixStack.push(operators.pop());
                 operators.push(symbol);
@@ -144,18 +149,46 @@ public class Parser
                 operators.push(symbol);
             }
         }
+        */
+        
+        /* Version 2
+        if (operators.isEmpty())
+        {
+            operators.push(symbol);
+        }
+        else if (Utils.isHighPrecedence(operators.peek()))
+        {
+            postfixStack.push(operators.pop());
+            operators.push(symbol);
+        }
+        else
+        {
+            operators.push(symbol);
+        }
+        */
+        
+        if (!operators.isEmpty() && Utils.isHighPrecedence(operators.peek()))
+        {
+            postfix.push(operators.pop());
+            operators.push(symbol);
+        }
+        else
+        {
+            operators.push(symbol);
+        }
     }
 
-    private void pushLowPrecedence(Stack<String> postfixStack,
+    private void pushLowPrecedence(Stack<String> postfix,
             Stack<String> operators, String symbol)
     {
-        if (operators.isEmpty())
+        /* Original
+         if (operators.isEmpty())
         {
             operators.push(symbol);
         }
         else
         {
-            if (SymbolUtils.isLeftParen(operators.peek()))
+            if (Utils.isLeftParen(operators.peek()))
             {
                 operators.push(symbol);
             }
@@ -164,6 +197,17 @@ public class Parser
                 postfixStack.push(operators.pop());
                 operators.push(symbol);                        
             }
+        }
+        */
+        
+        if (operators.isEmpty() || Utils.isLeftParen(operators.peek()))
+        {
+            operators.push(symbol);
+        }
+        else
+        {
+            postfix.push(operators.pop());
+            operators.push(symbol);
         }
     }
 	
@@ -182,7 +226,7 @@ public class Parser
 		Stack<String>calc = new Stack<>();
 		for (String symbol : postfixList)
 		{		    
-		    if (!SymbolUtils.isParenthesis(symbol))
+		    if (!Utils.isParenthesis(symbol))
 		    {
 	            if (Functions.contains(symbol))
 	            {

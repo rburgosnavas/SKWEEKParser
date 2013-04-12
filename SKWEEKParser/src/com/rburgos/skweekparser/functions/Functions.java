@@ -1,4 +1,4 @@
-package com.rburgos.skweekparser;
+package com.rburgos.skweekparser.functions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +14,12 @@ public enum Functions implements FunctionInterface
             return String.valueOf((Double.parseDouble(x) + 
                     Double.parseDouble(y)));
         }
+
+        @Override
+        public double eval(double x, double y)
+        {
+            return x + y;
+        }
     },
     SUB("-")
     {
@@ -22,6 +28,12 @@ public enum Functions implements FunctionInterface
         {
             return String.valueOf((Double.parseDouble(y) - 
                     Double.parseDouble(x)));
+        }
+
+        @Override
+        public double eval(double x, double y)
+        {
+            return x - y;
         }
     },
     MULT("*")
@@ -32,6 +44,12 @@ public enum Functions implements FunctionInterface
             return String.valueOf((Double.parseDouble(x) * 
                     Double.parseDouble(y)));
         }
+
+        @Override
+        public double eval(double x, double y)
+        {
+            return x * y;
+        }
     },
     DIV("/")
     {
@@ -40,6 +58,12 @@ public enum Functions implements FunctionInterface
         {
             return String.valueOf((Double.parseDouble(y) / 
                     Double.parseDouble(x)));
+        }
+
+        @Override
+        public double eval(double x, double y)
+        {
+            return y / x;
         }
     },
     MOD("%")
@@ -50,6 +74,12 @@ public enum Functions implements FunctionInterface
             return String.valueOf((Double.parseDouble(y) % 
                     Double.parseDouble(x)));
         }
+
+        @Override
+        public double eval(double x, double y)
+        {
+            return y % x;
+        }
     },
     POW("^")
     {
@@ -58,6 +88,12 @@ public enum Functions implements FunctionInterface
         {
             return String.valueOf(Math.pow(Double.parseDouble(y), 
                     Double.parseDouble(x)));
+        }
+
+        @Override
+        public double eval(double x, double y)
+        {
+            return Math.pow(y, x);
         }
     }, 
     LSHIFT("<<")
@@ -69,6 +105,12 @@ public enum Functions implements FunctionInterface
             double b = Double.parseDouble(y);
             return String.valueOf(((int)b << (int)a));
         }
+
+        @Override
+        public double eval(double x, double y)
+        {
+            return (int)x << (int)y;
+        }
     },
     RSHIFT(">>")
     {
@@ -78,6 +120,12 @@ public enum Functions implements FunctionInterface
             double a = Double.parseDouble(x);
             double b = Double.parseDouble(y);
             return String.valueOf(((int)b >> (int)a));
+        }
+
+        @Override
+        public double eval(double x, double y)
+        {
+            return (int)y >> (int)x;
         }
     },
     OR("|")
@@ -89,6 +137,12 @@ public enum Functions implements FunctionInterface
             double b = Double.parseDouble(y);
             return String.valueOf(((int)b | (int)a));
         }
+
+        @Override
+        public double eval(double x, double y)
+        {
+            return (int)y | (int)x;
+        }
     },
     AND("&")
     {
@@ -98,6 +152,12 @@ public enum Functions implements FunctionInterface
             double a = Double.parseDouble(x);
             double b = Double.parseDouble(y);
             return String.valueOf(((int)b & (int)a));
+        }
+
+        @Override
+        public double eval(double x, double y)
+        {
+            return (int)y & (int)x;
         }
     };
     

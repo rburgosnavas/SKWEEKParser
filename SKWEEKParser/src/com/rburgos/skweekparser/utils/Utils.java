@@ -1,15 +1,15 @@
-package com.rburgos.skweekparser;
+package com.rburgos.skweekparser.utils;
 
-public class SymbolUtils
+public class Utils
 {
-    private SymbolUtils() {}
+    private Utils() {}
     
-    static boolean isLowPrecedence(String symbol)
+    public static boolean isLowPrecedence(String symbol)
     {
         return symbol.equals("+") || symbol.equals("-");
     }
 
-    static boolean isHighPrecedence(String symbol)
+    public static boolean isHighPrecedence(String symbol)
     {
         return symbol.equals("*") || symbol.equals("/") || 
                symbol.equals("^") || symbol.equals("<<") || 
@@ -17,52 +17,57 @@ public class SymbolUtils
                symbol.equals("&") || symbol.equals("%");
     }
 
-    static boolean isLeftParen(String symbol)
+    public static boolean isLeftParen(String symbol)
     {
         return symbol.equals("(");
     }
 
-    static boolean isRightParen(String symbol)
+    public static boolean isRightParen(String symbol)
     {
         return symbol.equals(")");
     }
 
-    static boolean isParenthesis(String symbol)
+    public static boolean isParenthesis(String symbol)
     {
         return isLeftParen(symbol) || isRightParen(symbol);
     }
 
-    static boolean isOperator(String symbol)
+    public static boolean isOperator(String symbol)
     {
         return isLowPrecedence(symbol) || isHighPrecedence(symbol);
     }
+    
+    public static boolean isNumeric(String symbol)
+    {
+        return symbol.matches("\\-?\\d+\\.?\\d*");
+    }
 
-    static boolean isNotNumeric(String symbol)
+    public static boolean isNotNumeric(String symbol)
     {
         return isOperator(symbol) || isParenthesis(symbol);
     }
 
-    static boolean isT(String symbol)
+    public static boolean isT(String symbol)
     {
         return symbol.equals("t");
     }
     
-    static boolean isX(String symbol)
+    public static boolean isX(String symbol)
     {
         return symbol.equals("x");
     }
     
-    static boolean isY(String symbol)
+    public static boolean isY(String symbol)
     {
         return symbol.equals("y");
     }
     
-    static boolean isZ(String symbol)
+    public static boolean isZ(String symbol)
     {
         return symbol.equals("z");
     }
     
-    static boolean isVariable(String symbol)
+    public static boolean isVariable(String symbol)
     {
         return  isT(symbol) || isX(symbol) || isY(symbol) || isZ(symbol);
     }

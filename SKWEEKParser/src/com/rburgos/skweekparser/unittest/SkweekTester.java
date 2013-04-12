@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.rburgos.skweekparser.symbols.AbstractSymbol;
 import com.rburgos.skweekparser.symbols.Num;
 
 public class SkweekTester
