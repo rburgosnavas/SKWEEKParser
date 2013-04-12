@@ -7,6 +7,14 @@ to make a better implementation by better design and refactoring.
 Anyone who comes across this project and wants to lend a hand, feel free to do 
 so!
 
+Update
+------
+
+
+
+Old README
+----------
+
 This parser is more or less a version of a standard math expression parser. It 
 is used in the SKWEEK app, which takes a math-like expression and turns it into
 8-bit sound sequence (what's knows as bytebeat). The parser is capable of 
