@@ -10,7 +10,25 @@ so!
 Update
 ------
 
+The parser is now split into three different classes:
+* `Lexer` splits a `String` of an expression into a List of `Symbols`;
+* `Evaluator` basically takes a List of `Symbols` and returns a new List of 
+`Symbols` converted to postfix;
+* `Interpreter` interprets this List and returns the result
 
+The old README below explains the general purpose of the parser. The `Parser`
+class was responsible for splitting to tokens, converting to postfix, and 
+calculating the postfix expression and returning the result. These 
+responsibilities are now divided by the three main classes listed above. As I'm 
+still learning from this project, and as I expect bugs to creep out, I'm 
+leaving the `Parser` class in the project for now. I feel that `Parser` works 
+fairly well by itself so it won't hurt. For more info about `Parser`, read the 
+old README below.
+
+To amend the lack documentation, a `Runner` class is included to show how the 
+`Parser` works, as well as the interaction between `Lexer`, `Evaluator`, and 
+`Interpreter`. I do plan to fully document everything once I know everything 
+works well.
 
 Old README
 ----------
@@ -26,7 +44,3 @@ Internally, the `Parser` class splits a `String` of the expression and splits
 it into a list of "symbols". This list is then processed to be converted to 
 "postfix" list of these symbols, and finally, the "postfix" list is read and 
 calculated into the final result.
-
-Although the project includes classes that represent "symbols" (inside the 
-`com.rburgos.skweekparser.symbols` package), these classes are not yet 
-implemented within `Parser` but ideally they will.
