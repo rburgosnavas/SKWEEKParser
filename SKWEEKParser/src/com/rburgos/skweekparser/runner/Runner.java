@@ -14,11 +14,18 @@ public class Runner
 {
     public static void main(String[] args)
 	{
-		String exp = "(2 * (5 + 6)) / 5";
+		String exp = "((2 * (5 + 6)) / 5) * z/t";
 		int t = 3;
 		int x = 10;
 		int y = 5;
 		int z = 25;
+		
+		/*
+		 * Test the Parser class
+		 * 
+		 * The Parser class is a self-contained class which splits and converts
+		 * an expression to postfix, and then calculates the result.
+		 */
 		System.out.println("**** Parser class test ****\n");
 		System.out.println("String exp:          " + exp);
 		
@@ -43,12 +50,13 @@ public class Runner
 		{
 		    System.out.print(s + " ");
 		}
-        // System.out.println("\n\n**** duration: " + (end-start) + " ****\n");
-		System.out.println("\n\n**** Lexer, Evaluator, and Interpreter tests ****\n");
+        // System.out.println("\n\n**** duration: " + (end-start) + " ****");
 		
 		/*
 		 * Test the Lexer
 		 */
+        System.out.println();
+		System.out.println("\n**** Lexer ****\n");
         Lexer lexer = new LexerBuilder(exp).setT(t).setX(x).setY(y).
                 setZ(z).make();
 		List<Symbol> symbols = lexer.tokenize();
@@ -57,12 +65,11 @@ public class Runner
         {
             System.out.println(symbol);
         }
-
-        System.out.println();
         
         /*
          * Test the Evaluator
          */
+        System.out.println("\n**** Evaluator ****\n");
         // Evaluator eval = new Evaluator(symbols);
         Evaluator eval = lexer.evaluator();
         List<Symbol> postfix = eval.toPostfix();
@@ -75,7 +82,8 @@ public class Runner
         /*
          * Test the Interpreter
          */
+        System.out.println("\n**** Interpreter ****\n");
         result = Interpreter.calculate(postfix);
-        System.out.println("\n\nInterpreter.calculate(postfix): " + result);
+        System.out.println("Interpreter.calculate(postfix): " + result);
 	}
 }
