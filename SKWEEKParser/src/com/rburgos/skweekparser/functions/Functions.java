@@ -33,7 +33,7 @@ public enum Functions implements FunctionInterface
         @Override
         public double eval(double x, double y)
         {
-            return x - y;
+            return y - x;
         }
     },
     MULT("*")
