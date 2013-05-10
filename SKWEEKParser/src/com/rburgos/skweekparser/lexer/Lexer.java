@@ -29,6 +29,8 @@ public class Lexer
         this.z = sb.getZ();
     }
     
+    public Lexer() {}
+    
     public Evaluator evaluator()
     {
         return new Evaluator(this.tokenize());
@@ -88,5 +90,30 @@ public class Lexer
         }
         
         return symbols;
+    }
+
+    public void setExpression(String expression)
+    {
+        this.expression = expression;
+    }
+
+    public void setT(int t)
+    {
+        this.t = t;
+    }
+
+    public void setX(int x)
+    {
+        this.x = x;
+    }
+
+    public void setY(int y)
+    {
+        this.y = y;
+    }
+
+    public void setZ(int z)
+    {
+        this.z = z;
     }
 }
